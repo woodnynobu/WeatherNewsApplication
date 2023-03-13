@@ -1,7 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
+//apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.woodny.weathernewsapplication'
@@ -30,12 +32,27 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
+    def nav_version = "2.5.3"
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    // navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+//    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+//    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+//    implementation 'com.squareup.moshi:moshi:1.12.0'
+    // moshiはJSON文字列をkotlinオブジェクトに変換する
+//    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
+    implementation 'androidx.compose.material3:material3:1.0.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
+    // M3もmaterialライブラリは必要
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
