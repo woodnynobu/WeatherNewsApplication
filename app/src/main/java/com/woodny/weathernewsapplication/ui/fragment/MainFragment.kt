@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
 import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,7 +78,19 @@ class MainFragment : Fragment() {
         binding.viewmodel = viewModel
 
         viewModel.weatherInfoLiveData.observe(viewLifecycleOwner) {
-            binding.weatherTodayButton.text = it.list[0].temp.day.toString()
+            val weatherToday =
+                it.list[0].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[0].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[0].temp.min.roundToInt().toString() + "°C</font>"
+            binding.weatherTodayText.text = HtmlCompat.fromHtml(weatherToday, FROM_HTML_MODE_COMPACT)
+            Glide.with(this)
+                .load("https://openweathermap.org/img/wn/" + it.list[0].weather[0].icon + ".png")
+                .into(binding.weatherTodayIcon)
+
+            val weatherTomorrow =
+                it.list[1].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[1].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[1].temp.min.roundToInt().toString() + "°C</font>"
+            binding.weatherTomorrowText.text = HtmlCompat.fromHtml(weatherTomorrow, FROM_HTML_MODE_COMPACT)
+            Glide.with(this)
+                .load("https://openweathermap.org/img/wn/" + it.list[1].weather[0].icon + ".png")
+                .into(binding.weatherTomorrowIcon)
         }
         viewModel.fetchWeatherInfo()
     }

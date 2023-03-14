@@ -85,36 +85,71 @@
             app:layout_constraintStart_toStartOf="@+id/areaTitle"
             app:layout_constraintTop_toBottomOf="@+id/areaTitle" />
 
-        <Button
-            android:id="@+id/weatherTodayButton"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/main_weather_today_temperature"
-            app:icon="@drawable/baseline_cloud_48"
-            app:iconGravity="start"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            app:layout_constraintEnd_toEndOf="@+id/todayTitle"
-            app:layout_constraintHorizontal_bias="0.0"
+        <ImageView
+            android:id="@+id/weatherTodayIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@+id/areaTitle"
             app:layout_constraintTop_toBottomOf="@+id/todayTitle" />
 
-        <Button
-            android:id="@+id/weatherTomorrowButton"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/weatherTodayText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:text="@string/main_weather_tomorrow_temperature"
-            app:icon="@drawable/baseline_cloud_48"
-            app:iconGravity="start"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/weatherTodayButton"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/weatherTodayIcon"
+            app:layout_constraintStart_toEndOf="@+id/weatherTodayIcon"
+            app:layout_constraintTop_toTopOf="@+id/weatherTodayIcon" />
+
+<!--        <Button-->
+<!--            android:id="@+id/weatherTodayButton"-->
+<!--            style="@style/Widget.Material3.Button.TextButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/main_weather_today_temperature"-->
+<!--            app:icon="@drawable/baseline_cloud_48"-->
+<!--            app:iconGravity="start"-->
+<!--            android:paddingStart="24dp"-->
+<!--            android:paddingEnd="24dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/todayTitle"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/areaTitle"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/todayTitle" />-->
+
+        <ImageView
+            android:id="@+id/weatherTomorrowIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/todayTitle"
             app:layout_constraintTop_toBottomOf="@+id/tomorrowTitle" />
+
+        <TextView
+            android:id="@+id/weatherTomorrowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/weatherTomorrowIcon"
+            app:layout_constraintStart_toEndOf="@+id/weatherTomorrowIcon"
+            app:layout_constraintTop_toTopOf="@+id/weatherTomorrowIcon" />
+
+        <!--        <Button-->
+<!--            android:id="@+id/weatherTomorrowButton"-->
+<!--            style="@style/Widget.Material3.Button.TextButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingStart="24dp"-->
+<!--            android:paddingEnd="24dp"-->
+<!--            android:text="@string/main_weather_tomorrow_temperature"-->
+<!--            app:icon="@drawable/baseline_cloud_48"-->
+<!--            app:iconGravity="start"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/weatherTodayButton"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tomorrowTitle" />-->
 
 <!--    <androidx.appcompat.widget.LinearLayoutCompat-->
 <!--        android:layout_width="0dp"-->
