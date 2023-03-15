@@ -5,16 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.woodny.weathernewsapplication.R
-import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
-import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
+import com.woodny.weathernewsapplication.databinding.FragmentWeatherAreaSettingBinding
+import com.woodny.weathernewsapplication.viewmodel.WeatherAreaSettingFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,13 +19,13 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
+ * Use the [WeatherAreaSettingFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class MainFragment : Fragment() {
-    private val viewModel: MainFragmentViewModel by viewModels()
-    private lateinit var binding: FragmentMainBinding
+class WeatherAreaSettingFragment : Fragment() {
+    private val viewModel: WeatherAreaSettingFragmentViewModel by viewModels()
+    private lateinit var binding: FragmentWeatherAreaSettingBinding
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -47,7 +43,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = FragmentWeatherAreaSettingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -58,12 +54,12 @@ class MainFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment MainFragment.
+         * @return A new instance of fragment WeatherAreaSettingFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MainFragment().apply {
+            WeatherAreaSettingFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -79,36 +75,21 @@ class MainFragment : Fragment() {
         // レイアウトで定義したviewModelに実際のviewModelの参照を渡す
         binding.viewmodel = viewModel
 
-        viewModel.area.observe(viewLifecycleOwner) {
-            binding.areaButton.text = it
-        }
-
-        viewModel.weatherInfoLiveData.observe(viewLifecycleOwner) {
-            // TODO:API取得失敗時のクラッシュ防止実装予定
-            val weatherToday =
-                it.list[0].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[0].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[0].temp.min.roundToInt().toString() + "°C</font>"
-            binding.weatherTodayText.text = HtmlCompat.fromHtml(weatherToday, FROM_HTML_MODE_COMPACT)
-            Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.list[0].weather[0].icon + ".png")
-                .into(binding.weatherTodayIcon)
-
-            val weatherTomorrow =
-                it.list[1].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[1].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[1].temp.min.roundToInt().toString() + "°C</font>"
-            binding.weatherTomorrowText.text = HtmlCompat.fromHtml(weatherTomorrow, FROM_HTML_MODE_COMPACT)
-            Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.list[1].weather[0].icon + ".png")
-                .into(binding.weatherTomorrowIcon)
-        }
-        viewModel.fetchWeatherInfo()
-
         viewModel.navigate.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
-                when(event){
-                    "ToWeatherAreaSetting" -> findNavController().navigate(R.id.action_mainFragment_to_weatherAreaSettingFragment)
+                when (event) {
+                    "ToMain" ->
+                        findNavController().navigate(R.id.action_weatherAreaSettingFragment_to_mainFragment)
                 }
             }
         }
 
-    }
+//        viewModel.inputText.observe(viewLifecycleOwner) {
+//            it?.let {
+//                // EditTextに文字列を入れる場合
+//                binding.editText.setText(it)
+//            }
+//        }
 
+    }
 }

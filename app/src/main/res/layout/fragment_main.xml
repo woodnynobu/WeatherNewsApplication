@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/main_weather_area"
-            app:layout_constraintBottom_toBottomOf="@+id/weatherTodayButton"
+            android:onClick="@{viewmodel::clickAreaText}"
             app:layout_constraintEnd_toEndOf="@+id/areaTitle"
             app:layout_constraintStart_toStartOf="@+id/areaTitle"
             app:layout_constraintTop_toBottomOf="@+id/areaTitle" />

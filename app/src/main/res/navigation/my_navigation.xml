@@ -9,5 +9,18 @@
         android:id="@+id/mainFragment"
         android:name="com.woodny.weathernewsapplication.ui.fragment.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_weatherAreaSettingFragment"
+            app:destination="@id/weatherAreaSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherAreaSettingFragment"
+        android:name="com.woodny.weathernewsapplication.ui.fragment.WeatherAreaSettingFragment"
+        android:label="fragment_weather_area_setting"
+        tools:layout="@layout/fragment_weather_area_setting" >
+        <action
+            android:id="@+id/action_weatherAreaSettingFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
