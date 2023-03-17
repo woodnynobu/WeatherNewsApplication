@@ -1,35 +1,33 @@
 package com.woodny.weathernewsapplication.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.woodny.weathernewsapplication.R
+import com.woodny.weathernewsapplication.databinding.NewsListVerticalItemBinding
+import com.woodny.weathernewsapplication.model.data.NewsVerticalData
 import java.util.ArrayList
 
-class NewsVerticalAdapter(private val newsTitleList: List<String>):
-    RecyclerView.Adapter<NewsVerticalAdapter.ViewHolder>() {
+class NewsVerticalAdapter(private val newsTitleList: List<NewsVerticalData>):
+    RecyclerView.Adapter<NewsVerticalAdapter.BindingHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.news_list_vertical_item, parent, false)
-        return ViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder {
+        val binding = NewsListVerticalItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BindingHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData()
-        holder.newsTitle.text = newsTitleList[position]
+    override fun onBindViewHolder(holder: BindingHolder, position: Int) {
+        holder.setData(newsTitleList[position])
     }
 
     override fun getItemCount() = newsTitleList.size
 
-    class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        val newsTitle = item.findViewById<TextView>(R.id.newsTitle)
-        val horizontalRecyclerView = item.findViewById<RecyclerView>(R.id.horizontalRecyclerView)
+    class BindingHolder(private val binding: NewsListVerticalItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun setData() {
+        fun setData(newsTitle: NewsVerticalData) {
+            binding.data = newsTitle
+
+            // TODO:APIで取得した情報を設定する
             val titleList = ArrayList<String>()
             titleList.add("スクエニ松田社長、『フォースポークン』発売直後のレビュー・販売状況を「厳しい」と認めていた。でもまだこれから - AUTOMATON")
             titleList.add("いいいいいいいいいい")
@@ -53,8 +51,8 @@ class NewsVerticalAdapter(private val newsTitleList: List<String>):
 
             val adapter = NewsHorizontalAdapter(titleList, authorList, publishTimeList)
             // linearLayoutManager と adapter をRecyclerViewにセット
-            horizontalRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            horizontalRecyclerView.adapter = adapter
+            binding.horizontalRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
+            binding.horizontalRecyclerView.adapter = adapter
         }
     }
 

@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewmodel"
+        <variable
+            name="viewmodel"
             type="com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel">
         </variable>
+
+<!--        <variable-->
+<!--            name="newsVerticalAdapter"-->
+<!--            type="com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
+import com.woodny.weathernewsapplication.model.data.NewsVerticalData
 import com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter
 import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,13 +116,12 @@ class MainFragment : Fragment() {
             }
         }
 
-        // TODO:APIのロジックが決まってから正式対応をする予定
         val newsTitleList = listOf(
-            "一般",
-            "ビジネス",
-            "エンタメ",
-            "スポーツ",
-            "テクノロジー"
+            NewsVerticalData("一般"),
+            NewsVerticalData("ビジネス"),
+            NewsVerticalData("エンタメ"),
+            NewsVerticalData("スポーツ"),
+            NewsVerticalData("テクノロジー")
         )
 
         val recyclerView = binding.verticalRecyclerView
