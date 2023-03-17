@@ -9,11 +9,15 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
+import com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter
 import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDate
+import java.util.*
 import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
@@ -79,6 +83,8 @@ class MainFragment : Fragment() {
         // レイアウトで定義したviewModelに実際のviewModelの参照を渡す
         binding.viewmodel = viewModel
 
+        binding.title.text = getDateAndDayOfWeek()
+
         viewModel.area.observe(viewLifecycleOwner) {
             binding.areaButton.text = it
         }
@@ -109,6 +115,39 @@ class MainFragment : Fragment() {
             }
         }
 
+        // TODO:APIのロジックが決まってから正式対応をする予定
+        val newsTitleList = listOf(
+            "一般",
+            "ビジネス",
+            "エンタメ",
+            "スポーツ",
+            "テクノロジー"
+        )
+
+        val recyclerView = binding.verticalRecyclerView
+        val adapter = NewsVerticalAdapter(newsTitleList)
+        // linearLayoutManager と adapter をRecyclerViewにセット
+        recyclerView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = adapter
+    }
+
+    private fun getDateAndDayOfWeek(): String {
+        // 日付の取得（ThreeTenABPライブラリで取得）
+        val today = LocalDate.now()
+
+        // 曜日の取得
+        val calendar: Calendar = Calendar.getInstance()
+        val dayOfWeek = when (calendar.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> "日曜日"
+            Calendar.MONDAY -> "月曜日"
+            Calendar.TUESDAY -> "火曜日"
+            Calendar.WEDNESDAY -> "水曜日"
+            Calendar.THURSDAY -> "木曜日"
+            Calendar.FRIDAY -> "金曜日"
+            Calendar.SATURDAY -> "土曜日"
+            else -> "該当なし"
+        }
+        return "$today $dayOfWeek"
     }
 
 }

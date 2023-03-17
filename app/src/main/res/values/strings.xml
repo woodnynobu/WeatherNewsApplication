@@ -9,7 +9,8 @@
     <string name="main_weather_area">函館市</string>
     <string name="main_weather_today_temperature">10.0°\n11.0°/5.0°</string>
     <string name="main_weather_tomorrow_temperature">12.0°\n15.0°/10.0°</string>
-    <string name="reload_image_button_description">リロード</string>
+    <string name="reload_button_description">リロード</string>
+    <string name="settings_button_description">設定</string>
 
     <string name="weather_area_setting_title">地域の設定</string>
     <string name="common_decide_button">決定</string>

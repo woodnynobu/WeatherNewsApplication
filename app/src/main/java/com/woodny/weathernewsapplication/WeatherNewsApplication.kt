@@ -1,11 +1,12 @@
 package com.woodny.weathernewsapplication
 
 import android.app.Application
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class WeatherNewsApplication : Application(){
+class WeatherNewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -14,6 +15,8 @@ class WeatherNewsApplication : Application(){
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+
+        AndroidThreeTen.init(this)
     }
 
 }

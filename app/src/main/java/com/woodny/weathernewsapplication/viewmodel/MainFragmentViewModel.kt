@@ -30,6 +30,16 @@ class MainFragmentViewModel @Inject constructor(
     private val _area = MutableLiveData<String>()
     val area: LiveData<String> = _area
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newsGeneral = clientApiRepository.fetchNewsInfo("general", "jp")
+            val newsBusiness = clientApiRepository.fetchNewsInfo("business", "jp")
+            val newsEntertainment = clientApiRepository.fetchNewsInfo("entertainment", "jp")
+            val newsSports = clientApiRepository.fetchNewsInfo("sports", "jp")
+            val newsTechnology = clientApiRepository.fetchNewsInfo("technology", "jp")
+        }
+    }
+
     fun fetchWeatherInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             val city = dataStoreRepository.loadCity().first()

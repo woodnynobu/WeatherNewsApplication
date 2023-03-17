@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ClientApi {
+interface WeatherApi {
     @GET("data/2.5/forecast/daily")
     fun fetchWeatherInfo(
         @Query("q") cityName: String,
@@ -13,5 +13,6 @@ interface ClientApi {
         @Query("cnt") count: Number,
         @Query("units") units: String
     ): Call<WeatherInfoResponse>
+
 
 }

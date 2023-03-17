@@ -84,12 +84,5 @@ class WeatherAreaSettingFragment : Fragment() {
             }
         }
 
-//        viewModel.inputText.observe(viewLifecycleOwner) {
-//            it?.let {
-//                // EditTextに文字列を入れる場合
-//                binding.editText.setText(it)
-//            }
-//        }
-
     }
 }

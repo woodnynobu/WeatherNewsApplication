@@ -2,7 +2,8 @@ package com.woodny.weathernewsapplication.module
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.woodny.weathernewsapplication.model.api.ClientApi
+import com.woodny.weathernewsapplication.model.api.NewsApi
+import com.woodny.weathernewsapplication.model.api.WeatherApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,15 +28,20 @@ class ClientApiModule {
 
     @Singleton
     @Provides
-    fun provideClientApi(retrofit: Retrofit): ClientApi =
-        retrofit.create(ClientApi::class.java)
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(moshi: Moshi): Retrofit =
+    fun provideWeatherApiRetrofit(moshi: Moshi): WeatherApi =
         Retrofit.Builder()
             .baseUrl(WEATHER_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
+            .create(WeatherApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideNewsApiRetrofit(moshi: Moshi): NewsApi =
+        Retrofit.Builder()
+            .baseUrl(NEWS_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(NewsApi::class.java)
 
 }
