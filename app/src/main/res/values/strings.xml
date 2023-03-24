@@ -15,5 +15,7 @@
     <string name="weather_area_setting_title">地域の設定</string>
     <string name="common_decide_button">決定</string>
     <string name="weather_area_hint">表示したい天気の地域を入力してください</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

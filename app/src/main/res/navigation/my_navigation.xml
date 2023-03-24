@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_weatherAreaSettingFragment"
             app:destination="@id/weatherAreaSettingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherAreaSettingFragment"
@@ -23,4 +26,8 @@
             android:id="@+id/action_weatherAreaSettingFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.woodny.weathernewsapplication.ui.fragment.NewsDetailFragment"
+        android:label="NewsDetailFragment" />
 </navigation>

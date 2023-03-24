@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woodny.weathernewsapplication.event.Event
+import com.woodny.weathernewsapplication.model.data.NewsResponse
 import com.woodny.weathernewsapplication.model.data.WeatherInfoResponse
 import com.woodny.weathernewsapplication.model.repository.ClientApiRepository
 import com.woodny.weathernewsapplication.model.repository.DataStoreRepository
@@ -30,13 +31,31 @@ class MainFragmentViewModel @Inject constructor(
     private val _area = MutableLiveData<String>()
     val area: LiveData<String> = _area
 
+    private var _newsJapanLiveData = MutableLiveData<NewsResponse>()
+    val newsJapanLiveData: LiveData<NewsResponse> = _newsJapanLiveData
+
+    private var _newsEntertainmentLiveData = MutableLiveData<NewsResponse>()
+    val newsEntertainmentLiveData: LiveData<NewsResponse> = _newsEntertainmentLiveData
+
+    private var _newsSportsLiveData = MutableLiveData<NewsResponse>()
+    val newsSportsLiveData: LiveData<NewsResponse> = _newsSportsLiveData
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val newsGeneral = clientApiRepository.fetchNewsInfo("general", "jp")
-            val newsBusiness = clientApiRepository.fetchNewsInfo("business", "jp")
-            val newsEntertainment = clientApiRepository.fetchNewsInfo("entertainment", "jp")
-            val newsSports = clientApiRepository.fetchNewsInfo("sports", "jp")
-            val newsTechnology = clientApiRepository.fetchNewsInfo("technology", "jp")
+            val resultNewsJapan = clientApiRepository.fetchNewsInfo("japan")
+            resultNewsJapan?.let {
+                _newsJapanLiveData.postValue(it)
+            }
+
+            val resultNewsEntertainment = clientApiRepository.fetchNewsInfo("entertainment")
+            resultNewsEntertainment?.let {
+                _newsEntertainmentLiveData.postValue(it)
+            }
+
+            val resultNewsSports = clientApiRepository.fetchNewsInfo("sports")
+            resultNewsSports?.let {
+                _newsSportsLiveData.postValue(it)
+            }
         }
     }
 
@@ -45,14 +64,32 @@ class MainFragmentViewModel @Inject constructor(
             val city = dataStoreRepository.loadCity().first()
             _area.postValue(city)
 
-            val result = clientApiRepository.fetchWeatherInfo(city)
-            result.let {
-                _weatherInfoLiveData.postValue(it)
+            val geoCodingInfo = clientApiRepository.fetchGeoCodingInfo(city)
+            geoCodingInfo?.let {geoCoding ->
+                // 先頭番地のみ取得
+                val lat = geoCoding[0].lat
+                val lon = geoCoding[0].lon
+
+                val weatherInfo = clientApiRepository.fetchWeatherInfo(lat, lon)
+                weatherInfo?.let {
+                    _weatherInfoLiveData.postValue(it)
+                }
             }
         }
     }
 
     fun clickAreaText(view: View) {
         _navigate.value = Event("ToWeatherAreaSetting")
+    }
+
+
+
+    fun fetchNewsInfo(category: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val result = clientApiRepository.fetchNewsInfo(category, "jp")
+//            result.let {
+//                _newsLiveData.postValue(it)
+//            }
+//        }
     }
 }

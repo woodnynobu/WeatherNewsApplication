@@ -14,10 +14,12 @@ import com.bumptech.glide.Glide
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
 import com.woodny.weathernewsapplication.model.data.NewsVerticalData
+import com.woodny.weathernewsapplication.ui.adapter.NewsHorizontalAdapter
 import com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter
 import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDate
+import timber.log.Timber
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -32,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), NewsHorizontalAdapter.BindHolder.ItemClickListener {
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
 
@@ -93,17 +95,26 @@ class MainFragment : Fragment() {
         viewModel.weatherInfoLiveData.observe(viewLifecycleOwner) {
             // TODO:API取得失敗時のクラッシュ防止実装予定
             val weatherToday =
-                it.list[0].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[0].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[0].temp.min.roundToInt().toString() + "°C</font>"
+                it.daily[0].temp.day.roundToInt().toString() +
+                        "°C<br><font color=#ff0000>" +
+                        it.daily[0].temp.max.roundToInt().toString() +
+                        "°C</font> / <font color=#0000ff>" +
+                        it.daily[0].temp.min.roundToInt().toString() +
+                        "°C</font>"
             binding.weatherTodayText.text = HtmlCompat.fromHtml(weatherToday, FROM_HTML_MODE_COMPACT)
             Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.list[0].weather[0].icon + ".png")
+                .load("https://openweathermap.org/img/wn/" + it.daily[0].weather[0].icon + ".png")
                 .into(binding.weatherTodayIcon)
 
             val weatherTomorrow =
-                it.list[1].temp.day.roundToInt().toString() + "°C<br><font color=#ff0000>" + it.list[1].temp.max.roundToInt().toString() + "°C</font> / <font color=#0000ff>" + it.list[1].temp.min.roundToInt().toString() + "°C</font>"
+                it.daily[1].temp.day.roundToInt().toString() +
+                        "°C<br><font color=#ff0000>" +
+                        it.daily[1].temp.max.roundToInt().toString() +
+                        "°C</font> / <font color=#0000ff>" +
+                        it.daily[1].temp.min.roundToInt().toString() + "°C</font>"
             binding.weatherTomorrowText.text = HtmlCompat.fromHtml(weatherTomorrow, FROM_HTML_MODE_COMPACT)
             Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.list[1].weather[0].icon + ".png")
+                .load("https://openweathermap.org/img/wn/" + it.daily[1].weather[0].icon + ".png")
                 .into(binding.weatherTomorrowIcon)
         }
         viewModel.fetchWeatherInfo()
@@ -111,21 +122,20 @@ class MainFragment : Fragment() {
         viewModel.navigate.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
                 when(event){
-                    "ToWeatherAreaSetting" -> findNavController().navigate(R.id.action_mainFragment_to_weatherAreaSettingFragment)
+                    "ToWeatherAreaSetting" ->
+                        findNavController().navigate(R.id.action_mainFragment_to_weatherAreaSettingFragment)
                 }
             }
         }
 
         val newsTitleList = listOf(
             NewsVerticalData("一般"),
-            NewsVerticalData("ビジネス"),
             NewsVerticalData("エンタメ"),
             NewsVerticalData("スポーツ"),
-            NewsVerticalData("テクノロジー")
         )
 
         val recyclerView = binding.verticalRecyclerView
-        val adapter = NewsVerticalAdapter(newsTitleList)
+        val adapter = NewsVerticalAdapter(newsTitleList, viewLifecycleOwner, viewModel, this)
         // linearLayoutManager と adapter をRecyclerViewにセット
         recyclerView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -148,6 +158,10 @@ class MainFragment : Fragment() {
             else -> "該当なし"
         }
         return "$today $dayOfWeek"
+    }
+
+    override fun onItemClick(view: View, position: Int, url: String) {
+        Timber.d("onItemClick position:" + position + " url:" + url)
     }
 
 }

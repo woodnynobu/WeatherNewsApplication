@@ -5,42 +5,38 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class WeatherInfoResponse(
-    val city: City,
-    val cod: String,
-    val message: Double,
-    val cnt : Int,
-    val list: List<WeatherList>,
-)
-
-data class City(
-    val id: Int,
-    val name: String,
-    val coord: Coord,
-    val country: String,
-    val population: Int,
-    val timezone: Int,
-)
-
-data class Coord(
+    val lat: Double,
     val lon: Double,
-    val lat: Double
+    val timezone: String,
+    val timezone_offset : Int,
+    val daily: List<WeatherList>,
 )
 
 data class WeatherList(
     val dt: Int,
     val sunrise: Int,
     val sunset: Int,
+    val moonrise: Int,
+    val moonset: Int,
+    @Json(name = "moon_phase")
+    val moonPhase: Double,
     val temp: Temp,
     @Json(name = "feels_like")
     val feelsLike: FeelsLike,
     val pressure: String,
     val humidity: Int,
+    @Json(name = "dew_point")
+    val dewPoint: Double,
+    @Json(name = "wind_speed")
+    val windSpeed: Double,
+    @Json(name = "wind_deg")
+    val windDeg: Int,
+    @Json(name = "wind_gust")
+    val windGust: Double,
     val weather: List<Weather>,
-    val speed: Double,
-    val deg: Int,
-    val gust: Double,
     val clouds: Int,
     val pop: Double,
+    val uvi: Double,
 )
 
 data class FeelsLike(

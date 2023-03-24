@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class ClientApiModule {
     companion object {
         const val WEATHER_URL = "https://api.openweathermap.org"
-        const val NEWS_URL = "https://newsapi.org"
+        const val NEWS_URL = "https://bing-news-search1.p.rapidapi.com"
     }
 
     @Singleton
