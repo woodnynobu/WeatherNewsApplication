@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/main_weather_area"
-            android:onClick="@{viewmodel::clickAreaText}"
+            android:onClick="@{viewmodel::onClickAreaText}"
             app:layout_constraintEnd_toEndOf="@+id/areaTitle"
             app:layout_constraintStart_toStartOf="@+id/areaTitle"
             app:layout_constraintTop_toBottomOf="@+id/areaTitle" />

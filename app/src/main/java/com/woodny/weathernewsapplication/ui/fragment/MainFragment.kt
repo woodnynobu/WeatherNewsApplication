@@ -34,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class MainFragment : Fragment(), NewsHorizontalAdapter.BindHolder.ItemClickListener {
+class MainFragment : Fragment() {
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
 
@@ -121,9 +121,13 @@ class MainFragment : Fragment(), NewsHorizontalAdapter.BindHolder.ItemClickListe
 
         viewModel.navigate.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
-                when(event){
+                when(event) {
                     "ToWeatherAreaSetting" ->
                         findNavController().navigate(R.id.action_mainFragment_to_weatherAreaSettingFragment)
+                    "ToNewsDetail" -> {
+                        Timber.d("News Url:" + viewModel.getNewsUrl())
+                        findNavController().navigate(R.id.action_mainFragment_to_newsDetailFragment)
+                    }
                 }
             }
         }
@@ -135,7 +139,7 @@ class MainFragment : Fragment(), NewsHorizontalAdapter.BindHolder.ItemClickListe
         )
 
         val recyclerView = binding.verticalRecyclerView
-        val adapter = NewsVerticalAdapter(newsTitleList, viewLifecycleOwner, viewModel, this)
+        val adapter = NewsVerticalAdapter(newsTitleList, viewLifecycleOwner, viewModel)
         // linearLayoutManager と adapter をRecyclerViewにセット
         recyclerView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
@@ -160,8 +164,8 @@ class MainFragment : Fragment(), NewsHorizontalAdapter.BindHolder.ItemClickListe
         return "$today $dayOfWeek"
     }
 
-    override fun onItemClick(view: View, position: Int, url: String) {
-        Timber.d("onItemClick position:" + position + " url:" + url)
-    }
+//    override fun onItemClick(view: View, position: Int, url: String) {
+//        Timber.d("onItemClick position:" + position + " url:" + url)
+//    }
 
 }

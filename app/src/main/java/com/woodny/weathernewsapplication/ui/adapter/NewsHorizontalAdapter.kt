@@ -12,10 +12,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.NewsListHorizontalItemBinding
 import com.woodny.weathernewsapplication.model.data.NewsHorizontalData
+import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 
 class NewsHorizontalAdapter(
     private val newsHorizontalList: List<NewsHorizontalData>,
-    private val itemClickListener: BindHolder.ItemClickListener
+    private val viewModel: MainFragmentViewModel
 ): RecyclerView.Adapter<NewsHorizontalAdapter.BindHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder {
@@ -24,23 +25,16 @@ class NewsHorizontalAdapter(
     }
 
     override fun onBindViewHolder(holder: BindHolder, position: Int) {
-        holder.setData(newsHorizontalList[position])
-        holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(it, position, newsHorizontalList[position].url)
-        }
+        holder.setData(newsHorizontalList[position], viewModel)
     }
 
     override fun getItemCount() = newsHorizontalList.size
 
     class BindHolder(private val binding: NewsListHorizontalItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun setData(newsHorizontalData:NewsHorizontalData) {
+        fun setData(newsHorizontalData:NewsHorizontalData, viewModel: MainFragmentViewModel) {
             binding.data = newsHorizontalData
-        }
-
-        interface ItemClickListener {
-            fun onItemClick(view: View, position: Int, url: String)
+            binding.viewModel = viewModel
         }
     }
-
 }

@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woodny.weathernewsapplication.event.Event
+import com.woodny.weathernewsapplication.model.data.NewsHorizontalData
 import com.woodny.weathernewsapplication.model.data.NewsResponse
 import com.woodny.weathernewsapplication.model.data.WeatherInfoResponse
 import com.woodny.weathernewsapplication.model.repository.ClientApiRepository
 import com.woodny.weathernewsapplication.model.repository.DataStoreRepository
+import com.woodny.weathernewsapplication.ui.adapter.NewsHorizontalAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,6 +42,8 @@ class MainFragmentViewModel @Inject constructor(
 
     private var _newsSportsLiveData = MutableLiveData<NewsResponse>()
     val newsSportsLiveData: LiveData<NewsResponse> = _newsSportsLiveData
+
+    private lateinit var _newsUrl: String
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -82,10 +87,17 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
-    fun clickAreaText(view: View) {
+    fun onClickAreaText(view: View) {
         _navigate.value = Event("ToWeatherAreaSetting")
     }
 
+    fun onClickNewsItem(data: NewsHorizontalData) {
+        Timber.d("onClickItem url:" + data.url)
+        _newsUrl = data.url
+        _navigate.value = Event("ToNewsDetail")
+    }
+
+    fun getNewsUrl() = _newsUrl
 
 
     fun fetchNewsInfo(category: String) {

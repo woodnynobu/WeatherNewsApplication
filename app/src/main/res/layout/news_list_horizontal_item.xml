@@ -7,11 +7,16 @@
         <variable name="data"
             type="com.woodny.weathernewsapplication.model.data.NewsHorizontalData">
         </variable>
+
+        <variable name="viewModel"
+            type="com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel">
+        </variable>
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
         android:layout_height="210dp"
         android:layout_margin="4dp"
+        android:onClick="@{() -> viewModel.onClickNewsItem(data)}"
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
