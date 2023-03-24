@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="設定画面"
+        android:layout="@layout/custom_preference_title">
+
+        <Preference
+            app:title="アプリバージョン"
+            app:summary="1.0.0"
+            android:layout="@layout/custom_preference_screen">
+        </Preference>
+
+        <Preference
+            app:key="@string/key_terms_of_service"
+            app:title="利用規約"
+            app:summary="利用規約を表示します"
+            android:layout="@layout/custom_preference_screen">
+        </Preference>
+
+        <Preference
+            app:key="@string/key_privacy_policy"
+            app:title="プライバシーポリシー"
+            app:summary="プライバシーポリシーを表示します"
+            android:layout="@layout/custom_preference_screen">
+        </Preference>
+
+        <Preference
+            app:key="@string/key_license"
+            app:title="ライセンス"
+            app:summary="ライセンスを表示します"
+            android:layout="@layout/custom_preference_screen">
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
