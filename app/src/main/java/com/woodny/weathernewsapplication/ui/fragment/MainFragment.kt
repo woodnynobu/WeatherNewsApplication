@@ -53,7 +53,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -126,7 +126,8 @@ class MainFragment : Fragment() {
                         findNavController().navigate(R.id.action_mainFragment_to_weatherAreaSettingFragment)
                     "ToNewsDetail" -> {
                         Timber.d("News Url:" + viewModel.getNewsUrl())
-                        findNavController().navigate(R.id.action_mainFragment_to_newsDetailFragment)
+                        val action = MainFragmentDirections.actionMainFragmentToNewsDetailFragment(viewModel.getNewsUrl())
+                        findNavController().navigate(action)
                     }
                 }
             }

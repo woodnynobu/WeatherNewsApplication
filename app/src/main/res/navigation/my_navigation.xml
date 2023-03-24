@@ -29,5 +29,9 @@
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.woodny.weathernewsapplication.ui.fragment.NewsDetailFragment"
-        android:label="NewsDetailFragment" />
+        android:label="NewsDetailFragment" >
+        <argument
+            android:name="newsUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>
