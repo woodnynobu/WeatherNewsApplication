@@ -129,6 +129,11 @@ class MainFragment : Fragment() {
                         val action = MainFragmentDirections.actionMainFragmentToNewsDetailFragment(viewModel.getNewsUrl())
                         findNavController().navigate(action)
                     }
+                    "ToSettings" ->
+                        findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+                    "ToReload" ->
+                        // TODO:Loading表示に変更
+                        findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
                 }
             }
         }
@@ -164,9 +169,5 @@ class MainFragment : Fragment() {
         }
         return "$today $dayOfWeek"
     }
-
-//    override fun onItemClick(view: View, position: Int, url: String) {
-//        Timber.d("onItemClick position:" + position + " url:" + url)
-//    }
 
 }

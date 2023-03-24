@@ -8,10 +8,6 @@
             name="viewmodel"
             type="com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel">
         </variable>
-
-<!--        <variable-->
-<!--            name="newsVerticalAdapter"-->
-<!--            type="com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,29 +25,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+　
         <ImageButton
             android:id="@+id/reloadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="#FFFFFF"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/reload_button_description"
+            android:onClick="@{viewmodel::onClickReloadButton}"
             android:src="@drawable/baseline_refresh_36"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/settingButton"
+            android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="#FFFFFF"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/settings_button_description"
-            android:src="@drawable/baseline_settings_24"
-            app:layout_constraintEnd_toStartOf="@+id/reloadButton"
-            app:layout_constraintTop_toTopOf="@+id/reloadButton" />
+            android:src="@drawable/baseline_settings_36"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:onClick="@{viewmodel::onClickSettingsButton}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/areaTitle"

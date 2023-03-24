@@ -91,6 +91,15 @@ class MainFragmentViewModel @Inject constructor(
         _navigate.value = Event("ToWeatherAreaSetting")
     }
 
+    fun onClickSettingsButton(view: View) {
+        _navigate.value = Event("ToSettings")
+    }
+
+    fun onClickReloadButton(view: View) {
+        // TODO:Reload処理
+        _navigate.value = Event("ToReload")
+    }
+
     fun onClickNewsItem(data: NewsHorizontalData) {
         Timber.d("onClickItem url:" + data.url)
         _newsUrl = data.url
