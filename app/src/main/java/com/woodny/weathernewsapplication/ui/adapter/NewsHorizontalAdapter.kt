@@ -3,7 +3,13 @@ package com.woodny.weathernewsapplication.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.NewsListHorizontalItemBinding
 import com.woodny.weathernewsapplication.model.data.NewsHorizontalData
 

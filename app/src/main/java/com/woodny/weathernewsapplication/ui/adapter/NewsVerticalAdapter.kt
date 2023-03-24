@@ -62,8 +62,13 @@ class NewsVerticalAdapter(
 
         private fun updateHorizontalRecyclerView(response: NewsResponse, itemClickListener: NewsHorizontalAdapter.BindHolder.ItemClickListener) {
             val newsHorizontalList = response.value?.map {article ->
-                // TODO: サムネイル追加予定
-                NewsHorizontalData(article.name, article.provider?.get(0)!!.name, article.url, article.datePublished)
+                NewsHorizontalData(
+                    article.name,
+                    article.provider[0].name,
+                    article.url,
+                    article.datePublished,
+                    article.image?.thumbnail?.contentUrl
+                )
             }
 
             newsHorizontalList?.let {

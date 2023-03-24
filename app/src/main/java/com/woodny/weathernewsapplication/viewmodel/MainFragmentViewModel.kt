@@ -45,17 +45,21 @@ class MainFragmentViewModel @Inject constructor(
             val resultNewsJapan = clientApiRepository.fetchNewsInfo("japan")
             resultNewsJapan?.let {
                 _newsJapanLiveData.postValue(it)
-            }
-
-            val resultNewsEntertainment = clientApiRepository.fetchNewsInfo("entertainment")
-            resultNewsEntertainment?.let {
+                // TODO:リリース前は以下を削除
                 _newsEntertainmentLiveData.postValue(it)
-            }
-
-            val resultNewsSports = clientApiRepository.fetchNewsInfo("sports")
-            resultNewsSports?.let {
                 _newsSportsLiveData.postValue(it)
             }
+
+            // TODO:リリース前は以下を実行する
+//            val resultNewsEntertainment = clientApiRepository.fetchNewsInfo("entertainment")
+//            resultNewsEntertainment?.let {
+//                _newsEntertainmentLiveData.postValue(it)
+//            }
+//
+//            val resultNewsSports = clientApiRepository.fetchNewsInfo("sports")
+//            resultNewsSports?.let {
+//                _newsSportsLiveData.postValue(it)
+//            }
         }
     }
 
