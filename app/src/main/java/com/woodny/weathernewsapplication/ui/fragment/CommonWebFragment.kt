@@ -5,29 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import com.woodny.weathernewsapplication.R
+import androidx.navigation.fragment.navArgs
+import com.woodny.weathernewsapplication.databinding.FragmentCommonWebBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LicenseFragment : Fragment() {
-
-    companion object {
-        private const val LICENSE_FILE = "file:///android_asset/licenses.html"
-    }
+class CommonWebFragment : Fragment() {
+    private lateinit var binding: FragmentCommonWebBinding
+    private val args: CommonWebFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_license, container, false)
+        binding = FragmentCommonWebBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        view.findViewById<WebView>(R.id.webView).loadUrl(LICENSE_FILE)
+        binding.webView.loadUrl(args.url)
     }
 
 }

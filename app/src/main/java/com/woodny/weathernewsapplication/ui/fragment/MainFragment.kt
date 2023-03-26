@@ -11,16 +11,20 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
 import com.woodny.weathernewsapplication.model.data.NewsVerticalData
-import com.woodny.weathernewsapplication.ui.adapter.NewsHorizontalAdapter
 import com.woodny.weathernewsapplication.ui.adapter.NewsVerticalAdapter
 import com.woodny.weathernewsapplication.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDate
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,6 +39,8 @@ private const val ARG_PARAM2 = "param2"
  */
 @AndroidEntryPoint
 class MainFragment : Fragment() {
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
     private val viewModel: MainFragmentViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
 
@@ -81,6 +87,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, MainFragment::class.java.simpleName)
+        }
+
         // LiveDataのデータをバインドする際にうまく通知させるようにする
         binding.lifecycleOwner = viewLifecycleOwner
         // レイアウトで定義したviewModelに実際のviewModelの参照を渡す
@@ -117,7 +127,8 @@ class MainFragment : Fragment() {
                 .load("https://openweathermap.org/img/wn/" + it.daily[1].weather[0].icon + ".png")
                 .into(binding.weatherTomorrowIcon)
         }
-        viewModel.fetchWeatherInfo()
+        // TODO:コメントを外す
+//        viewModel.fetchWeatherInfo()
 
         viewModel.navigate.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
@@ -133,7 +144,7 @@ class MainFragment : Fragment() {
                         findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
                     "ToReload" ->
                         // TODO:Loading表示に変更
-                        findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+                        Timber.d("Execute Reloading")
                 }
             }
         }

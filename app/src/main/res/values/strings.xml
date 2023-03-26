@@ -16,6 +16,15 @@
     <string name="common_decide_button">決定</string>
     <string name="weather_area_hint">表示したい天気の地域を入力してください</string>
 
+    <string name="settings_title">設定</string>
+    <string name="app_version_title">アプリバージョン</string>
+    <string name="terms_of_service_title">利用規約</string>
+    <string name="terms_of_service_summary">利用規約を表示します</string>
+    <string name="privacy_policy_title">プライバシーポリシー</string>
+    <string name="privacy_policy_summary">プライバシーポリシーを表示します</string>
+    <string name="license_title">ライセンス</string>
+    <string name="license_summary">ライセンスを表示します</string>
+    <string name="key_app_version">key_app_version</string>
     <string name="key_terms_of_service">key_terms_of_service</string>
     <string name="key_privacy_policy">key_privacy_policy</string>
     <string name="key_license">key_license</string>
