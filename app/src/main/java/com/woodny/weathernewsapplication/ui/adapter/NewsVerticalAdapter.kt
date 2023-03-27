@@ -23,40 +23,60 @@ class NewsVerticalAdapter(
     }
 
     override fun onBindViewHolder(holder: BindingHolder, position: Int) {
-        holder.bind(viewLifecycleOwner, viewModel, position)
-        holder.setNewsTitle(newsTitleList[position])
+        holder.bind(viewLifecycleOwner, viewModel, position, newsTitleList)
     }
 
     override fun getItemCount() = newsTitleList.size
 
     class BindingHolder(private val binding: NewsListVerticalItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun setNewsTitle(newsTitle: NewsVerticalData) {
-            binding.data = newsTitle
-        }
-
-        fun bind(viewLifecycleOwner: LifecycleOwner, viewModel: MainFragmentViewModel, position: Int) {
+        fun bind(viewLifecycleOwner: LifecycleOwner,
+                 viewModel: MainFragmentViewModel,
+                 position: Int,
+                 newsTitleList: List<NewsVerticalData>) {
 
             when (position) {
                 0 -> {
                     viewModel.newsJapanLiveData.observe(viewLifecycleOwner) { response ->
-                        updateHorizontalRecyclerView(response, viewModel)
+                        response?.let{
+                            updateHorizontalRecyclerView(
+                                it,
+                                viewModel,
+                                newsTitleList[position]
+                            )
+                        }
                     }
                 }
                 1 -> {
                     viewModel.newsEntertainmentLiveData.observe(viewLifecycleOwner) { response ->
-                        updateHorizontalRecyclerView(response, viewModel)
+                        response?.let {
+                            updateHorizontalRecyclerView(
+                                it,
+                                viewModel,
+                                newsTitleList[position]
+                            )
+                        }
                     }
                 }
                 2 -> {
                     viewModel.newsSportsLiveData.observe(viewLifecycleOwner) { response ->
-                        updateHorizontalRecyclerView(response, viewModel)
+                        response?.let {
+                            updateHorizontalRecyclerView(
+                                it,
+                                viewModel,
+                                newsTitleList[position]
+                            )
+                        }
                     }
                 }
             }
         }
 
-        private fun updateHorizontalRecyclerView(response: NewsResponse, viewModel: MainFragmentViewModel) {
+        private fun updateHorizontalRecyclerView(response: NewsResponse,
+                                                 viewModel: MainFragmentViewModel,
+                                                 newsTitleList: NewsVerticalData) {
+            binding.data = newsTitleList
+
             val newsHorizontalList = response.value?.map {article ->
                 NewsHorizontalData(
                     article.name,

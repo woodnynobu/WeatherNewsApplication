@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
@@ -12,9 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.ktx.Firebase
 import com.woodny.weathernewsapplication.R
 import com.woodny.weathernewsapplication.databinding.FragmentMainBinding
 import com.woodny.weathernewsapplication.model.data.NewsVerticalData
@@ -87,6 +87,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 画面表示時点でLoading開始
+        executeLoading(true)
+
         analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
             param(FirebaseAnalytics.Param.SCREEN_NAME, MainFragment::class.java.simpleName)
         }
@@ -102,33 +105,34 @@ class MainFragment : Fragment() {
             binding.areaButton.text = it
         }
 
-        viewModel.weatherInfoLiveData.observe(viewLifecycleOwner) {
-            // TODO:API取得失敗時のクラッシュ防止実装予定
-            val weatherToday =
-                it.daily[0].temp.day.roundToInt().toString() +
-                        "°C<br><font color=#ff0000>" +
-                        it.daily[0].temp.max.roundToInt().toString() +
-                        "°C</font> / <font color=#0000ff>" +
-                        it.daily[0].temp.min.roundToInt().toString() +
-                        "°C</font>"
-            binding.weatherTodayText.text = HtmlCompat.fromHtml(weatherToday, FROM_HTML_MODE_COMPACT)
-            Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.daily[0].weather[0].icon + ".png")
-                .into(binding.weatherTodayIcon)
+        viewModel.weatherInfoLiveData.observe(viewLifecycleOwner) {weatherInfoResponse ->
+            weatherInfoResponse?.let{
+                val weatherToday =
+                    it.daily[0].temp.day.roundToInt().toString() +
+                            "°C<br><font color=#ff0000>" +
+                            it.daily[0].temp.max.roundToInt().toString() +
+                            "°C</font> / <font color=#0000ff>" +
+                            it.daily[0].temp.min.roundToInt().toString() +
+                            "°C</font>"
+                binding.weatherTodayText.text = HtmlCompat.fromHtml(weatherToday, FROM_HTML_MODE_COMPACT)
 
-            val weatherTomorrow =
-                it.daily[1].temp.day.roundToInt().toString() +
-                        "°C<br><font color=#ff0000>" +
-                        it.daily[1].temp.max.roundToInt().toString() +
-                        "°C</font> / <font color=#0000ff>" +
-                        it.daily[1].temp.min.roundToInt().toString() + "°C</font>"
-            binding.weatherTomorrowText.text = HtmlCompat.fromHtml(weatherTomorrow, FROM_HTML_MODE_COMPACT)
-            Glide.with(this)
-                .load("https://openweathermap.org/img/wn/" + it.daily[1].weather[0].icon + ".png")
-                .into(binding.weatherTomorrowIcon)
+                Glide.with(this)
+                    .load("https://openweathermap.org/img/wn/" + it.daily[0].weather[0].icon + ".png")
+                    .into(binding.weatherTodayIcon)
+
+                val weatherTomorrow =
+                    it.daily[1].temp.day.roundToInt().toString() +
+                            "°C<br><font color=#ff0000>" +
+                            it.daily[1].temp.max.roundToInt().toString() +
+                            "°C</font> / <font color=#0000ff>" +
+                            it.daily[1].temp.min.roundToInt().toString() + "°C</font>"
+                binding.weatherTomorrowText.text = HtmlCompat.fromHtml(weatherTomorrow, FROM_HTML_MODE_COMPACT)
+
+                Glide.with(this)
+                    .load("https://openweathermap.org/img/wn/" + it.daily[1].weather[0].icon + ".png")
+                    .into(binding.weatherTomorrowIcon)
+            }
         }
-        // TODO:コメントを外す
-//        viewModel.fetchWeatherInfo()
 
         viewModel.navigate.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { event ->
@@ -142,9 +146,9 @@ class MainFragment : Fragment() {
                     }
                     "ToSettings" ->
                         findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
-                    "ToReload" ->
-                        // TODO:Loading表示に変更
-                        Timber.d("Execute Reloading")
+                    "ToReload" -> {
+                        reload()
+                    }
                 }
             }
         }
@@ -160,6 +164,10 @@ class MainFragment : Fragment() {
         // linearLayoutManager と adapter をRecyclerViewにセット
         recyclerView.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = adapter
+
+        viewModel.isLoadingStop.observe(viewLifecycleOwner) {
+            executeLoading(false)
+        }
     }
 
     private fun getDateAndDayOfWeek(): String {
@@ -179,6 +187,28 @@ class MainFragment : Fragment() {
             else -> "該当なし"
         }
         return "$today $dayOfWeek"
+    }
+
+    private fun executeLoading(isStart: Boolean) {
+        if(isStart) {
+            binding.reloadButton.visibility = GONE
+            Glide.with(this)
+                .load(R.raw.glowing_ring)
+                .into(binding.loading)
+        } else {
+            binding.reloadButton.visibility = VISIBLE
+            Glide.with(this)
+                .load("")
+                .into(binding.loading)
+        }
+    }
+
+    private fun reload() {
+        // 初期化
+        viewModel.resetWeatherAndNews()
+        // Loading開始
+        executeLoading(true)
+        viewModel.fetchWeatherAndNews()
     }
 
 }

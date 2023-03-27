@@ -146,20 +146,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/areaButton" />
 
-<!--        <Button-->
-<!--            android:id="@+id/weatherTomorrowButton"-->
-<!--            style="@style/Widget.Material3.Button.TextButton"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center"-->
-<!--            android:paddingStart="24dp"-->
-<!--            android:paddingEnd="24dp"-->
-<!--            android:text="@string/main_weather_tomorrow_temperature"-->
-<!--            app:icon="@drawable/baseline_cloud_48"-->
-<!--            app:iconGravity="start"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/weatherTodayButton"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/tomorrowTitle" />-->
+        <ImageView
+            android:id="@+id/loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
